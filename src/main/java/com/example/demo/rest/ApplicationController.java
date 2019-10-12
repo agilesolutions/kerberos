@@ -1,4 +1,5 @@
 package com.example.demo.rest;
+
 import org.ietf.jgss.GSSContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,6 @@ import org.springframework.security.kerberos.authentication.KerberosServiceReque
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
 
 @RestController
 @RequestMapping("/api")
@@ -31,39 +30,48 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 public class ApplicationController {
-	
-	 private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
-	
-	
-    @Value("${spring.application.version}")
-    private String version;
 
-    @Value("${spring.application.environment}")
-    private String environment;
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+
+	@Value("${spring.application.version}")
+	private String version;
+
+	@Value("${spring.application.environment}")
+	private String environment;
 
 	@GetMapping(value = "/version")
 	public String showVersion() {
-		
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		if (authentication instanceof KerberosServiceRequestToken) {
-		    KerberosServiceRequestToken token = (KerberosServiceRequestToken) authentication;
+			KerberosServiceRequestToken token = (KerberosServiceRequestToken) authentication;
 
-		    if (token.getTicketValidation() == null) {
-		        // No delegation possible...
-		    } else {
-		        GSSContext context = token.getTicketValidation().getGssContext();
+			/**
+			 * Gets the (Base64) encoded response token assuming one is available.
+			 * 
+			 * see https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/KerberosServiceRequestToken.java
+			 *
+			 * @return encoded response token
+			 */
+			String base64Token = token.getEncodedResponseToken();
 
-		        // ...
-		    }
+			logger.info("base 64 spnego token {} of Demo application", base64Token);
+
+			if (token.getTicketValidation() == null) {
+				// No delegation possible...
+			} else {
+				GSSContext context = token.getTicketValidation().getGssContext();
+
+				// ...
+			}
 		}
-		
-        logger.info("Running version {} of Demo application", version);
-        
-        logger.info("Running Demo application in environment {}", environment);
+
+		logger.info("Running version {} of Demo application", version);
+
+		logger.info("Running Demo application in environment {}", environment);
 
 		return version;
 	}
-
 
 }
