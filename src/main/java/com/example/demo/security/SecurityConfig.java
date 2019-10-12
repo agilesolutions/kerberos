@@ -92,6 +92,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		ticketValidator.setServicePrincipal(servicePrincipal);
 		ticketValidator.setKeyTabLocation(new FileSystemResource(keytabLocation));
 		ticketValidator.setDebug(true);
+		// read https://github.com/spring-projects/spring-security-kerberos/issues/103
+		ticketValidator.setHoldOnToGSSContext(true);
 		return ticketValidator;
 	}
 

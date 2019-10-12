@@ -12,6 +12,11 @@
 * [the bloody authenticator](https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/sun/SunJaasKerberosTicketValidator.java)
 
 
+## The SunJaasKerberosTicketValidator can be configured to store the authentication context
+
+* [ticketValidator.setHoldOnToGSSContext(true)](https://github.com/spring-projects/spring-security-kerberos/issues/103)
+
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
