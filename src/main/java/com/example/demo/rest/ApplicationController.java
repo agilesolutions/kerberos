@@ -1,6 +1,7 @@
 package com.example.demo.rest;
 
 import org.ietf.jgss.GSSContext;
+import org.ietf.jgss.GSSException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,8 @@ import org.springframework.security.kerberos.authentication.KerberosServiceReque
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
@@ -40,6 +43,7 @@ public class ApplicationController {
 	private String environment;
 
 	@GetMapping(value = "/forward")
+	@ApiOperation(value = "Kerberos ticket forward", notes = "Test delegated ticket with kerberos S4U")
 	public String showVersion() {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,12 +63,22 @@ public class ApplicationController {
 			logger.info("base 64 spnego token {} of Demo application", base64Token);
 
 			if (token.getTicketValidation() == null) {
-				// No delegation possible...
+				logger.info("No delegation possible");
 			} else {
 				GSSContext context = token.getTicketValidation().getGssContext();
 
+				try {
+					logger.info("GSSContext established {}", context.getSrcName().toString());
+				} catch (GSSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
 				// ...
 			}
+		} else {
+			logger.info("No kerberos token available on security context holder");
 		}
 
 		logger.info("Running version {} of Demo application", version);
