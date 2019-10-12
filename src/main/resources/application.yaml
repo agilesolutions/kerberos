@@ -1,0 +1,7 @@
+debug: true
+
+spring:
+  application:
+    name: demo
+    version: 1.0
+    environment: DEV
