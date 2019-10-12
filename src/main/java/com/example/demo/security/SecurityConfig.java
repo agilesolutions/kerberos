@@ -95,6 +95,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return ticketValidator;
 	}
 
+	
 	@Bean
 	public DummyUserDetailsService dummyUserDetailsService() {
 		return new DummyUserDetailsService();

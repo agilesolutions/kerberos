@@ -8,6 +8,8 @@
 * [Issues with forwarding](https://github.com/spring-projects/spring-security-kerberos/issues/103)
 * [Spring boot ticket validation](https://raw.githubusercontent.com/spring-projects/spring-security-kerberos/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/sun/SunJaasKerberosTicketValidator.java)
 * [Spring Kerberos 1.0.1](https://docs.spring.io/spring-security-kerberos/docs/1.0.1.RELEASE/api/)
+* [Configure ticket validator](http://code-addict.pl/spring-security-kerberos/)
+* [the bloody authenticator](https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/sun/SunJaasKerberosTicketValidator.java)
 
 
 ### Reference Documentation
