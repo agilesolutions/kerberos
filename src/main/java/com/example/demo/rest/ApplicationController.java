@@ -39,7 +39,7 @@ public class ApplicationController {
 	@Value("${spring.application.environment}")
 	private String environment;
 
-	@GetMapping(value = "/version")
+	@GetMapping(value = "/forward")
 	public String showVersion() {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
