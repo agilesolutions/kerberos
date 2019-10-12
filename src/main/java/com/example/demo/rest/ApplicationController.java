@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
  * https://docs.spring.io/spring-security-kerberos/docs/1.0.1.RELEASE/api/
  * 
  * 
+ * 
+ * https://github.com/spring-projects/spring-security-kerberos/tree/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication
+ * 
+ * 
  * @author Carol
  *
  */
