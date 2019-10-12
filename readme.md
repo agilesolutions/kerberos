@@ -3,7 +3,7 @@
 ### SPNEGO and Springboot documentation
 
 * [Introduction to SPNEGO/Kerberos Authentication in Spring](https://www.baeldung.com/spring-security-kerberos)
-* [Spring Security Kerberos Integration](Spring Security Kerberos Integration)
+* [Spring Security Kerberos Integration](https://www.baeldung.com/spring-security-kerberos-integration)
 * [Ticketforwarding part 1](https://stackoverflow.com/questions/12529243/delegate-forward-kerberos-tickets-with-spring-security)
 * [Issues with forwarding](https://github.com/spring-projects/spring-security-kerberos/issues/103)
 * [Spring boot ticket validation](https://raw.githubusercontent.com/spring-projects/spring-security-kerberos/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/sun/SunJaasKerberosTicketValidator.java)
