@@ -61,7 +61,7 @@ public class ApplicationController {
 			String base64Token = token.getEncodedResponseToken();
 
 			logger.info("base 64 spnego token {} of Demo application", base64Token);
-
+			
 			if (token.getTicketValidation() == null) {
 				logger.info("No delegation possible");
 			} else {
