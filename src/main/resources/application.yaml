@@ -5,3 +5,10 @@ spring:
     name: demo
     version: 1.0
     environment: DEV
+    
+app:
+  service-principal: HTTP/localhost
+  user-principal: client/localhost
+  keytab-location: @project.basedir@\\krb-test-workdir\\example.keytab
+  access-url: http://localhost:8080/
+  
