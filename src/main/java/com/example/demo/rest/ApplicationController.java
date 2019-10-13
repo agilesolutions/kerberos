@@ -87,33 +87,45 @@ public class ApplicationController {
 				logger.info("No delegation possible");
 			} else {
 
-				try {
-					
-					byte[] rawToken = createServiceToken("servername");
+				if (token.getTicketValidation().getGssContext().getCredDelegState()) {
 
-					logger.info("Raw token {}", rawToken);
+					// read https://stackoverflow.com/questions/12529243/delegate-forward-kerberos-tickets-with-spring-security
+					logger.info ("SunJaasKerberosTicketValidator has isInitiator flag set to false. This causes context.getCredDeleg() to return false, and you can not delegate the credentials");
 					
-					String forwardedToken = generateToken(rawToken);
+					try {
 
-					logger.info("SPNEGO token {}", forwardedToken);
+						/**
+						 * now the real work demonstrated by dzone
+						 * 
+						 * https://dzone.com/articles/microservices-and-kerberos-authentication
+						 */
+						byte[] rawToken = createServiceToken("servername");
 
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						logger.info("Raw token {}", rawToken);
+
+						/**
+						 * now generated the TGS token
+						 */
+						String forwardedToken = generateToken(rawToken);
+
+						logger.info("SPNEGO token {}", forwardedToken);
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
-			
+
 			}
 		} else {
 			logger.info("No kerberos token available on security context holder");
 		}
 
-
 		logger.info("Running Demo application in environment {}", environment);
 
 		return version;
 	}
-
 
 	/**
 	 * Establish GSS context and generate TGS token.
@@ -133,6 +145,7 @@ public class ApplicationController {
 
 	/**
 	 * https://dzone.com/articles/microservices-and-kerberos-authentication
+	 * 
 	 * @param serviceName
 	 * @return
 	 * @throws Exception
