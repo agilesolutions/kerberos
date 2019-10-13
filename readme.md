@@ -2,6 +2,8 @@
 
 ### SPNEGO and Springboot documentation
 
+* [MSA and Kerberos - the final ticketforwarding answer](https://dzone.com/articles/microservices-and-kerberos-authentication)
+
 * [Introduction to SPNEGO/Kerberos Authentication in Spring](https://www.baeldung.com/spring-security-kerberos)
 * [Spring Security Kerberos Integration](https://www.baeldung.com/spring-security-kerberos-integration)
 * [Ticketforwarding part 1](https://stackoverflow.com/questions/12529243/delegate-forward-kerberos-tickets-with-spring-security)

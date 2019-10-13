@@ -1,9 +1,20 @@
 package com.example.demo.rest;
 
+import java.security.PrivilegedExceptionAction;
 import java.util.Base64;
 
+import javax.security.auth.Subject;
+
 import org.ietf.jgss.GSSContext;
+import org.ietf.jgss.GSSCredential;
 import org.ietf.jgss.GSSException;
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.GSSName;
+import org.ietf.jgss.Oid;
+
+import com.sun.security.jgss.ExtendedGSSContext;
+import com.sun.security.jgss.ExtendedGSSCredential;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,52 +61,98 @@ public class ApplicationController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+		// https://dzone.com/articles/microservices-and-kerberos-authentication
 		if (authentication instanceof KerberosServiceRequestToken) {
+
+			KerberosServiceRequestToken spring = (KerberosServiceRequestToken) SecurityContextHolder.getContext()
+					.getAuthentication();
+
 			KerberosServiceRequestToken token = (KerberosServiceRequestToken) authentication;
+
+			Subject subject = token.getTicketValidation().subject();
 
 			/**
 			 * Gets the (Base64) encoded response token assuming one is available.
 			 * 
-			 * see https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/KerberosServiceRequestToken.java
+			 * see
+			 * https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/KerberosServiceRequestToken.java
 			 *
 			 * @return encoded response token
 			 */
 			String base64Token = token.getEncodedResponseToken();
 
 			logger.info("base 64 spnego token {} of Demo application", base64Token);
-			
+
 			if (token.getTicketValidation() == null) {
 				logger.info("No delegation possible");
 			} else {
-				GSSContext context = token.getTicketValidation().getGssContext();
-				
 
 				try {
-					logger.info("GSSContext established {}", context.getSrcName().toString());
 					
-					// http://useof.org/java-open-source/org.springframework.security.kerberos.authentication.KerberosServiceRequestToken
-					byte[] byteToken = token.getToken();
+					byte[] rawToken = createServiceToken("servername");
 
-			        final String result = Base64.getEncoder().encodeToString(byteToken);
-			        System.out.println("Token " + Base64.getEncoder().encodeToString(byteToken));
+					logger.info("Raw token {}", rawToken);
 					
-				} catch (GSSException e) {
+					String forwardedToken = generateToken(rawToken);
+
+					logger.info("SPNEGO token {}", forwardedToken);
+
+					
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				
-				// ...
+			
 			}
 		} else {
 			logger.info("No kerberos token available on security context holder");
 		}
 
-		logger.info("Running version {} of Demo application", version);
 
 		logger.info("Running Demo application in environment {}", environment);
 
 		return version;
+	}
+
+
+	/**
+	 * Establish GSS context and generate TGS token.
+	 *
+	 * @param targetUserName user to impersonate
+	 * @param targetService  target service SPN
+	 * @return Base64 token
+	 * @throws Exception many thinks may fail
+	 */
+	public String generateToken(byte[] token) throws Exception {
+
+		final String result = Base64.getEncoder().encodeToString(token);
+		System.out.println("Token " + Base64.getEncoder().encodeToString(token));
+
+		return result;
+	}
+
+	/**
+	 * https://dzone.com/articles/microservices-and-kerberos-authentication
+	 * @param serviceName
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] createServiceToken(String serviceName) throws Exception {
+		KerberosServiceRequestToken authentication = (KerberosServiceRequestToken) SecurityContextHolder.getContext()
+				.getAuthentication();
+		Subject subject = authentication.getTicketValidation().subject();
+		return Subject.doAs(subject, (PrivilegedExceptionAction<byte[]>) () -> {
+			GSSManager manager = GSSManager.getInstance();
+			GSSName name = manager.createName("HTTP@" + serviceName, GSSName.NT_HOSTBASED_SERVICE);
+			GSSContext context = manager.createContext(name, null,
+					authentication.getTicketValidation().getGssContext().getDelegCred(),
+					GSSContext.INDEFINITE_LIFETIME);
+			context.requestCredDeleg(true);
+			byte[] serviceToken = context.initSecContext(authentication.getToken(), 0,
+					authentication.getToken().length);
+			context.dispose();
+			return serviceToken;
+		});
 	}
 
 }
