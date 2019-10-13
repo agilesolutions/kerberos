@@ -10,6 +10,7 @@
 * [Spring Kerberos 1.0.1](https://docs.spring.io/spring-security-kerberos/docs/1.0.1.RELEASE/api/)
 * [Configure ticket validator](http://code-addict.pl/spring-security-kerberos/)
 * [the bloody authenticator](https://github.com/spring-projects/spring-security-kerberos/blob/master/spring-security-kerberos-core/src/main/java/org/springframework/security/kerberos/authentication/sun/SunJaasKerberosTicketValidator.java)
+* [get token from kerberos service request token](http://useof.org/java-open-source/org.springframework.security.kerberos.authentication.KerberosServiceRequestToken)
 
 
 ## The SunJaasKerberosTicketValidator can be configured to store the authentication context

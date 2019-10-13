@@ -1,5 +1,7 @@
 package com.example.demo.rest;
 
+import java.util.Base64;
+
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSException;
 import org.slf4j.Logger;
@@ -66,9 +68,17 @@ public class ApplicationController {
 				logger.info("No delegation possible");
 			} else {
 				GSSContext context = token.getTicketValidation().getGssContext();
+				
 
 				try {
 					logger.info("GSSContext established {}", context.getSrcName().toString());
+					
+					// http://useof.org/java-open-source/org.springframework.security.kerberos.authentication.KerberosServiceRequestToken
+					byte[] byteToken = token.getToken();
+
+			        final String result = Base64.getEncoder().encodeToString(byteToken);
+			        System.out.println("Token " + Base64.getEncoder().encodeToString(byteToken));
+					
 				} catch (GSSException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
