@@ -38,8 +38,10 @@ Context-based access control (CBAC)
 * [Keycloak github quickstarts](https://github.com/keycloak/keycloak-quickstarts)
 * [About policies and authorization](https://www.keycloak.org/docs/6.0/authorization_services/#_overview)
 * [The Benefits of Migrating from ADFS to Keycloak](The Benefits of Migrating from ADFS to Okta)
-* []()
-* []()
+
+Many enterprises today are looking to implement a single sign-on (SSO) so their users can easily access all of their cloud and web applications without authenticating to each application individually. They conclude that the solution for single sign-on from Active Directory is Active Directory Federation Services (ADFS)—simply because they are both Microsoft products.
+
+Organizations using ADFS for SSO face complex configuration requirements and dependency on other resources to meet the minimum requirements for an SSO solution. 
 
 ### Reference Documentation
 For further reference, please consider the following sections:
