@@ -24,6 +24,7 @@
 * [Securing Spring Microservices with Keycloak part 1](https://blog.jdriven.com/2018/10/securing-spring-microservices-with-keycloak-part-1/)
 * [Securing Spring Microservices with Keycloak part 2](https://blog.jdriven.com/2018/10/securing-spring-microservices-with-keycloak-part-2/)
 * [REST Service Protected Using Keycloak Authorization Services](https://medium.com/@ravthiru/rest-service-protected-using-keycloak-authorization-services-a6ad2d8ecb9f)
+* [The sources from above post](https://github.com/ravthiru/keycloak-recepies)
 * [Keycloak github quickstarts](https://github.com/keycloak/keycloak-quickstarts)
 * [About policies and authorization](https://www.keycloak.org/docs/6.0/authorization_services/)
 * []()
