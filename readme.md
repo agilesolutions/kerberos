@@ -37,7 +37,7 @@ Context-based access control (CBAC)
 * [The sources from above post](https://github.com/ravthiru/keycloak-recepies)
 * [Keycloak github quickstarts](https://github.com/keycloak/keycloak-quickstarts)
 * [About policies and authorization](https://www.keycloak.org/docs/6.0/authorization_services/#_overview)
-* []()
+* [The Benefits of Migrating from ADFS to Keycloak](The Benefits of Migrating from ADFS to Okta)
 * []()
 * []()
 
